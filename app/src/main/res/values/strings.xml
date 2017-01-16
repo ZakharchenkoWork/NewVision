@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">NewVision</string>
+    <string name="enter_search_query">Enter search query</string>
+    <string name="forks">Forks: %d</string>
+    <string name="subscribers">Subscribers: %d</string>
+    <string name="list">List:</string>
+    <string name="name">Name:</string>
+</resources>
