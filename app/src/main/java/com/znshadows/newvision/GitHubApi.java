@@ -5,6 +5,7 @@ import com.znshadows.newvision.models.SubscriberData;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -17,7 +18,7 @@ import retrofit2.http.Url;
 public interface GitHubApi {
     // https://api.github.com/search/repositories
     @GET("/search/repositories")
-    Call<ReposData> getData(@Query("q") String keyWords);
+    Observable<ReposData> getData(@Query("q") String keyWords);
 
     //https://api.github.com/repos/NASAWorldWind/WorldWindJava/subscribers
     @GET

@@ -3,6 +3,7 @@ package com.znshadows.newvision;
 import android.app.Application;
 import android.util.DisplayMetrics;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -27,8 +28,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         getApi();
-
-
     }
 
 
@@ -39,6 +38,7 @@ public class App extends Application {
         } else {
             builder = new Retrofit.Builder()
                     .baseUrl(GITHUB_URL)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create()).build();
             gitHubApi = builder.create(GitHubApi.class);
             return gitHubApi;
