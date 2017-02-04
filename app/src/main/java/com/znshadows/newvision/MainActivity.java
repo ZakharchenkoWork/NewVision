@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements IView{
         presenter = new RepoListPresenter(this);
 
         ImageView okButton = (ImageView) findViewById(R.id.ok);
-        EditText query = (EditText) findViewById(R.id.query);
         RecyclerView itemsContainer = (RecyclerView) findViewById(R.id.itemsContainer);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         itemsContainer.setLayoutManager(layoutManager);
@@ -48,31 +47,7 @@ public class MainActivity extends AppCompatActivity implements IView{
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
             presenter.onSearchClick();
-            /*App.getApi().getData(query.getText().toString()).enqueue(new Callback<ReposData>() {
-                @Override
-                public void onResponse(Call<ReposData> call, Response<ReposData> response) {
-                    Log.d("MainActivity", "url " + call.request().url());
 
-                    DataAdapter adapter = new DataAdapter(response.body().getItems(), (int position)->{
-                        Intent detailed = new Intent(MainActivity.this, DetailedActivity.class);
-                        detailed.putExtra(DetailedActivity.EXTRA_SUBSCRIBERS_URL, response.body().getItems().get(position).getSubscribersUrl());
-                        detailed.putExtra(DetailedActivity.EXTRA_NAME, response.body().getItems().get(position).getFullName());
-                        startActivity(detailed);
-                    });
-                    itemsContainer.setAdapter(adapter);
-
-                    for (int i = 0; i < response.body().getItems().size(); i++) {
-                        Log.d("MainActivity", "url " + response.body().getItems().get(i).getFullName());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ReposData> call, Throwable t) {
-                    Log.d("MainActivity", "url " + call.request().url());
-                    t.printStackTrace();
-                }
-            });
-*/
         });
 
 

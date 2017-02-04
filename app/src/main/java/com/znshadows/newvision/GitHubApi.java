@@ -22,5 +22,5 @@ public interface GitHubApi {
 
     //https://api.github.com/repos/NASAWorldWind/WorldWindJava/subscribers
     @GET
-    Call<List<SubscriberData>> getSubscribers(@Url String url);
+    Observable<List<SubscriberData>> getSubscribers(@Url String url);
 }
