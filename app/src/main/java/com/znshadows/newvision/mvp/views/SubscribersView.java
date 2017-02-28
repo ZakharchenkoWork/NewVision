@@ -1,7 +1,7 @@
-package com.znshadows.newvision;
+package com.znshadows.newvision.mvp.views;
 
-import com.znshadows.newvision.models.Item;
 import com.znshadows.newvision.models.SubscriberData;
+import com.znshadows.newvision.mvp.views.BaseView;
 
 import java.util.List;
 
@@ -9,9 +9,8 @@ import java.util.List;
  * Created by kostya on 04.02.2017.
  */
 
-public interface IView2 {
+public interface SubscribersView extends BaseView {
     void showList(List<SubscriberData> subscriberDatas);
-    void showError(String error);
     void showEmptyList();
     String getUrl();
 }

@@ -1,17 +1,15 @@
-package com.znshadows.newvision;
+package com.znshadows.newvision.screens.subscribers;
 
-import android.view.View;
-
-import com.znshadows.newvision.models.Item;
-import com.znshadows.newvision.models.Model;
-import com.znshadows.newvision.models.ModelImpl;
-import com.znshadows.newvision.models.ReposData;
-
-
-import org.reactivestreams.Subscription;
-
+import com.znshadows.newvision.App;
+import com.znshadows.newvision.TestApplication;
+import com.znshadows.newvision.models.SubscriberData;
+import com.znshadows.newvision.mvp.models.Model;
+import com.znshadows.newvision.mvp.presenters.ISubscribersPresenter;
+import com.znshadows.newvision.mvp.views.SubscribersView;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -21,25 +19,27 @@ import io.reactivex.disposables.Disposable;
  * Created by kostya on 04.02.2017.
  */
 
-public class RepoListPresenter implements Presenter {
+public class SubscribersPresenterTest implements ISubscribersPresenter<SubscribersView> {
+    @Inject
+    Model model;
 
-    private Model model = new ModelImpl();
-
-    private IView view;
+    private SubscribersView view;
     Disposable disposable = null;
 
-    public RepoListPresenter(IView view) {
-        this.view = view;
+    public SubscribersPresenterTest() {
+
+        TestApplication.getTestAppComponent().inject(this);
     }
 
+
     @Override
-    public void onSearchClick() {
+    public void onSubscribersRequest() {
         if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
         }
 
-        model.getRepoList(view.getUserName())
-                .subscribe(new Observer<ReposData>() {
+        model.getSubscriberList(view.getUrl())
+                .subscribe(new Observer<List<SubscriberData>>() {
                     @Override
                     public void onComplete() {
 
@@ -56,15 +56,14 @@ public class RepoListPresenter implements Presenter {
                     }
 
                     @Override
-                    public void onNext(ReposData reposData) {
-                        List<Item> data = reposData.getItems();
+                    public void onNext(List<SubscriberData> data) {
+
                         if (data != null && !data.isEmpty()) {
                             view.showList(data);
                         } else {
                             view.showEmptyList();
                         }
                     }
-
 
                 });
     }
@@ -74,6 +73,11 @@ public class RepoListPresenter implements Presenter {
         if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
         }
+    }
+
+    @Override
+    public void setView(SubscribersView view) {
+        this.view = view;   
     }
 }
 

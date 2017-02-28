@@ -1,4 +1,4 @@
-package com.znshadows.newvision;
+package com.znshadows.newvision.mvp.models;
 
 import com.znshadows.newvision.models.ReposData;
 import com.znshadows.newvision.models.SubscriberData;

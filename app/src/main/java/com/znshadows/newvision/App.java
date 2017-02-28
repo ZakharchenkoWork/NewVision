@@ -1,12 +1,12 @@
 package com.znshadows.newvision;
 
 import android.app.Application;
-import android.util.DisplayMetrics;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.znshadows.newvision.di.components.AppComponent;
+import com.znshadows.newvision.di.components.DaggerAppComponent;
+
+import com.znshadows.newvision.mvp.models.GitHubApi;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -17,32 +17,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class App extends Application {
 
-    private static GitHubApi gitHubApi;
+    private static AppComponent appComponent;
 
 
-    public static final String GITHUB_URL = "https://api.github.com/";
-
-    private static Retrofit builder;
+    public static AppComponent getAppComponent() {
+        return appComponent;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        getApi();
+        initComponent();
+
+
     }
 
-
-
-    public static GitHubApi getApi() {
-        if (builder != null) {
-            return gitHubApi;
-        } else {
-            builder = new Retrofit.Builder()
-                    .baseUrl(GITHUB_URL)
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create()).build();
-            gitHubApi = builder.create(GitHubApi.class);
-            return gitHubApi;
-        }
+    protected void initComponent() {
+        appComponent = DaggerAppComponent.create();
 
     }
 

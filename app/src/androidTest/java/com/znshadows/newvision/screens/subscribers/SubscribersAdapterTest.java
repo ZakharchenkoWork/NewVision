@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.znshadows.newvision;
+package com.znshadows.newvision.screens.subscribers;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,25 +24,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.znshadows.newvision.models.Item;
+import com.znshadows.newvision.R;
+import com.znshadows.newvision.models.SubscriberData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder> {
+public class SubscribersAdapterTest extends RecyclerView.Adapter<SubscribersAdapterTest.DataViewHolder> {
 
-    private static final String TAG = DataAdapter.class.getSimpleName();
-    private Context ctx;
-    private List<Item> items = new ArrayList<>();
-    OnItemClickListener onItemClickListener;
+    private static final String TAG = SubscribersAdapter.class.getSimpleName();
+    private List<SubscriberData> items = new ArrayList<>();
 
-    public interface OnItemClickListener{
-        void onClick(int position);
-    }
+    public SubscribersAdapterTest(List<SubscriberData> items) {
 
-    public DataAdapter(List<Item> items, OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
         if (items == null) {
             this.items = new ArrayList<>();
         } else {
@@ -55,8 +49,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
     @Override
     public DataViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.repo_item, viewGroup, false);
-        ctx = viewGroup.getContext();
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.subscriber_item, viewGroup, false);
         return new DataViewHolder(view);
 
 
@@ -65,7 +58,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
     @Override
     public void onBindViewHolder(DataViewHolder holder, int position) {
         Log.d(TAG, "#" + position);
-        holder.bind(items.get(position), position);
+        holder.bind(items.get(position));
     }
 
 
@@ -75,29 +68,20 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
     }
 
     class DataViewHolder extends RecyclerView.ViewHolder {
-        View container;
         ImageView avatar;
         TextView name;
-        TextView description;
-        TextView forks;
 
 
         public DataViewHolder(View itemView) {
             super(itemView);
-            container = itemView;
             avatar = (ImageView) itemView.findViewById(R.id.avatar);
             name = (TextView) itemView.findViewById(R.id.name);
-            description = (TextView) itemView.findViewById(R.id.description);
-            forks = (TextView) itemView.findViewById(R.id.forks);
 
         }
 
-        void bind(Item item, int position) {
-            name.setText(item.getFullName());
-            description.setText(item.getDescription());
-            forks.setText(ctx.getString(R.string.forks, item.getForksCount()));
-           ImageLoader.getInstance().displayImage(item.getOwner().getAvatarUrl(), avatar); // Default options will be used
-            container.setOnClickListener((view -> {onItemClickListener.onClick(position);}));
+        void bind(SubscriberData item) {
+            name.setText(item.getLogin());
+           ImageLoader.getInstance().displayImage(item.getAvatarUrl(), avatar); // Default options will be used
 
         }
 

@@ -1,4 +1,4 @@
-package com.znshadows.newvision;
+package com.znshadows.newvision.screens.subscribers;
 
 
 import android.os.Bundle;
@@ -10,29 +10,36 @@ import android.support.v7.widget.RecyclerView;
 
 import android.widget.TextView;
 
+import com.znshadows.newvision.App;
+import com.znshadows.newvision.R;
 import com.znshadows.newvision.models.SubscriberData;
+import com.znshadows.newvision.mvp.presenters.ISubscribersPresenter;
+import com.znshadows.newvision.mvp.views.SubscribersView;
+import com.znshadows.newvision.screens.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 
 
 /**
  * Created by kostya on 14.01.2017.
  */
 
-public class DetailedActivity extends AppCompatActivity implements IView2{
+public class SubscribersActivity extends BaseActivity implements SubscribersView {
     public static final String EXTRA_NAME = "name";
     public static final String EXTRA_SUBSCRIBERS_URL = "url";
     TextView subscribersCount;
     RecyclerView itemsContainer;
+
+    @Inject
+    ISubscribersPresenter subscribersPresenter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.repo_details);
-
-        Presenter2 presenter2 = new SubscriberPresenter(this);
-
 
         TextView name = (TextView) findViewById(R.id.name);
         subscribersCount = (TextView) findViewById(R.id.subscribersCount);
@@ -47,9 +54,15 @@ public class DetailedActivity extends AppCompatActivity implements IView2{
         }
 
         if (getIntent().hasExtra(EXTRA_SUBSCRIBERS_URL)) {
-            presenter2.onSubscribersRequest();
+            subscribersPresenter.onSubscribersRequest();
         }
 
+    }
+
+    @Override
+    protected void injectDependencies() {
+        App.getAppComponent().inject(this);
+        subscribersPresenter.setView(this);
     }
 
     @Override
